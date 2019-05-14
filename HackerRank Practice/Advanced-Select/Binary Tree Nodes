@@ -5,3 +5,8 @@ WHEN (n in (select p from bst)) then 'Inner'
 ELSE 'Leaf' end 
 FROM bst 
 ORDER BY n;
+
+/*
+Line 4 looks for n in the 'p' column. If it exists in that column, it meants it has a "parent" value. Notice how the leafs 
+(1, 3, 6, 9) do not have appear in the 'p' column, therefore making them at the bottom of the tree.
+*/
