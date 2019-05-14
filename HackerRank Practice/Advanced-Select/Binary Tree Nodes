@@ -2,4 +2,6 @@ SELECT n,
 CASE
 WHEN (p is null) then 'Root' 
 WHEN (n in (select p from bst)) then 'Inner'
-ELSE 'Leaf' end from bst order by n;
+ELSE 'Leaf' end 
+FROM bst 
+ORDER BY n;
