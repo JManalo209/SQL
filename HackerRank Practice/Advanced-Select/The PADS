@@ -16,3 +16,10 @@ SELECT value
         GROUP BY Occupation
        ) t
 ORDER BY key1, key2, key3;
+
+
+/*Line 3 and 11 add the strings together. 
+  Line 3 results in: Samantha(A), etc.
+  Line 11 results in: There are a total of 3 doctors, etc.
+  
+  
