@@ -1,81 +1,25 @@
-SELECT 
-MIN(CASE WHEN Occupation = 'Doctor' THEN Name ELSE NULL END) AS Doctor,
-MIN(CASE WHEN Occupation = 'Professor' THEN Name ELSE NULL END) AS Professor,
-MIN(CASE WHEN Occupation = 'Singer' THEN Name ELSE NULL END) AS Singer,
-MIN(CASE WHEN Occupation = 'Actor' THEN Name ELSE NULL END) AS Actor
-FROM (
-  SELECT a.Occupation,
-         a.Name,
-         (SELECT COUNT(*) 
-            FROM Occupations AS b
-            WHERE a.Occupation = b.Occupation AND a.Name > b.Name) AS rank
-  FROM Occupations AS a
-) AS c
-GROUP BY c.rank;
+set @r1=0, @r2=0, @r3=0, @r4=0;
+select min(Doctor), min(Professor), min(Singer), min(Actor)
+from(
+  select case when Occupation='Doctor' then (@r1:=@r1+1)
+            when Occupation='Professor' then (@r2:=@r2+1)
+            when Occupation='Singer' then (@r3:=@r3+1)
+            when Occupation='Actor' then (@r4:=@r4+1) end as RowNumber,
+    case when Occupation='Doctor' then Name end as Doctor,
+    case when Occupation='Professor' then Name end as Professor,
+    case when Occupation='Singer' then Name end as Singer,
+    case when Occupation='Actor' then Name end as Actor
+  from OCCUPATIONS
+  order by Name
+) Temp
+group by RowNumber
 
- /*
-            This query creates the ranking value, smaller values are in alphabetical order.
+/*This question requires a SQL pivot table. 
 
-              SELECT a.Occupation,
-                     a.Name,
-                     (SELECT COUNT(*) 
-                        FROM Occupations AS b
-                        WHERE a.Occupation = b.Occupation AND a.Name > b.Name) AS rank
-              FROM Occupations AS a
-            +------------+-----------+------+
-            | Occupation | Name      | rank |
-            +------------+-----------+------+
-            | Doctor     | Samantha  |    1 |
-            | Actor      | Julia     |    1 |
-            | Actor      | Maria     |    2 |
-            | Singer     | Meera     |    0 |
-            And then you can rotate row and column by this query
+The logic of this query is:
+Reshape Occupation into 4 columns with their index in each occupation, this leads to Temp table (which has many NULL).
+Then group Temp by index and select corresponding Name for each Occupation.
+min()/max() will return a name for specific index and specific occupation. If there is a name, it will return it, if not, return NULL.
 
-            SELECT 
-            rank,
-            CASE WHEN Occupation = 'Doctor' THEN Name ELSE NULL END AS Doctor,
-            CASE WHEN Occupation = 'Professor' THEN Name ELSE NULL END AS Professor,
-            CASE WHEN Occupation = 'Singer' THEN Name ELSE NULL END AS Singer,
-            CASE WHEN Occupation = 'Actor' THEN Name ELSE NULL END AS Actor
-            FROM (
-              SELECT a.Occupation,
-                     a.Name,
-                     (SELECT COUNT(*) 
-                        FROM Occupations AS b
-                        WHERE a.Occupation = b.Occupation AND a.Name > b.Name) AS rank
-              FROM Occupations AS a
-            ) AS c
-
-            +------+----------+-----------+--------+-------+
-            | rank | Doctor   | Professor | Singer | Actor |
-            +------+----------+-----------+--------+-------+
-            |    1 | Samantha | NULL      | NULL   | NULL  |
-            |    1 | NULL     | NULL      | NULL   | Julia |
-            |    2 | NULL     | NULL      | NULL   | Maria |
-            |    0 | NULL     | NULL      | Meera  | NULL  |
-            |    0 | NULL     | Ashely    | NULL   | NULL  |
-            Doctor and other occupations columns contain only a single value for each ranks, so you can reduce null value by MAX or MIN aggregate function with group by rank value.
-
-            SELECT 
-            rank,
-            MAX(CASE WHEN Occupation = 'Doctor' THEN Name ELSE NULL END) AS Doctor,
-            MAX(CASE WHEN Occupation = 'Professor' THEN Name ELSE NULL END) AS Professor,
-            MAX(CASE WHEN Occupation = 'Singer' THEN Name ELSE NULL END) AS Singer,
-            MAX(CASE WHEN Occupation = 'Actor' THEN Name ELSE NULL END) AS Actor
-            FROM (
-              SELECT a.Occupation,
-                     a.Name,
-                     (SELECT COUNT(*) 
-                        FROM Occupations AS b
-                        WHERE a.Occupation = b.Occupation AND a.Name > b.Name) AS rank
-              FROM Occupations AS a
-            ) AS c
-            GROUP BY c.rank;
-
-            +------+----------+-----------+--------+-------+
-            | rank | Doctor   | Professor | Singer | Actor |
-            +------+----------+-----------+--------+-------+
-            |    0 | Jenny    | Ashely    | Meera  | Jane  |
-            |    1 | Samantha | Christeen | Priya  | Julia |
-            |    2 | NULL     | Ketty     | NULL   | Maria |
-            +------+----------+-----------+--------+-------+
+You can just run the Temp table to see what it looks like, don’t forget to include set statement. 
+It will be very helpful if you break down the code and see the result.
