@@ -15,11 +15,29 @@ from(
 group by RowNumber
 
 /*This question requires a SQL pivot table. 
-
-The logic of this query is:
-Reshape Occupation into 4 columns with their index in each occupation, this leads to Temp table (which has many NULL).
-Then group Temp by index and select corresponding Name for each Occupation.
-min()/max() will return a name for specific index and specific occupation. If there is a name, it will return it, if not, return NULL.
-
-You can just run the Temp table to see what it looks like, don’t forget to include set statement. 
-It will be very helpful if you break down the code and see the result.
+First, the code orders by name in line 13
+Then the code creates the rows labeled with a row #, and the columns filled in with a Name or NULL value
+    Output:
+      RowNumber: Dr_Name: Prof_Name: Singer_Name: Actor_Name:
+      1 Aamina NULL NULL NULL 
+      1 NULL Ashley NULL NULL 
+      2 NULL Belvet NULL NULL 
+      3 NULL Britney NULL NULL 
+      1 NULL NULL Christeen NULL 
+      1 NULL NULL NULL Eve 
+      2 NULL NULL Jane NULL 
+      2 NULL NULL NULL Jennifer 
+      3 NULL NULL Jenny NULL 
+      2 Julia NULL NULL NULL 
+      3 NULL NULL NULL Ketty 
+      4 NULL NULL Kristeen NULL 
+      4 NULL Maria NULL NULL 
+      5 NULL Meera NULL NULL 
+      6 NULL Naomi NULL NULL 
+      3 Priya NULL NULL NULL 
+      7 NULL Priyanka NULL NULL 
+      4 NULL NULL NULL Samantha
+      
+Finally the code aggregates the rows together using the group by RowNumber and the min statement. 
+As stated below 'min()/max() will return a name for specific index and specific occupation. 
+If there is a name, it will return it, if not, return NULL'.
