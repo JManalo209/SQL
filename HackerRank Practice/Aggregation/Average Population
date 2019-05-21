@@ -1,2 +1,4 @@
 SELECT round(avg(population),0) 
 FROM city 
+
+/*the zero in "round(avg(population),0)", describes the specified number of decimal places.
