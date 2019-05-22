@@ -5,3 +5,5 @@ order by earnings desc limit 1;
 /* Result: 108064 7 
 (salary * months)as earnings = 108064 aka highest salary
 count(*) = 7 people
+Grouping by 1 means you are grouping by the first column
+Line 3 : "order by earnings desc limit 1" displays the highest salary. Asc would show lowest.
