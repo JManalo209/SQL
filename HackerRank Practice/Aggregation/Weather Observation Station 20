@@ -1,0 +1,5 @@
+Select round(S.LAT_N,4) median 
+from station S 
+where (select count(Lat_N) from station where Lat_N < S.LAT_N ) = (select count(Lat_N) from station where Lat_N > S.LAT_N)
+
+/*the subquery in line 3 is creating two tables which are one for number of LAT_N values less than S.LAT_N and one for number of LAT_N values greater than S.LAT_N.
