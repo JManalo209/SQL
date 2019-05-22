@@ -1,0 +1,9 @@
+SELECT CEIL(AVG(Salary)-AVG(REPLACE(Salary,'0',''))) FROM EMPLOYEES;
+                                    
+/*The CEIL() function returns the smallest integer value that is bigger than or equal to a number.
+
+SELECT CEIL( # CEIL rounds the argument up to the nearest int
+	AVG(Salary) # the correct average of salaries
+    - AVG( # subtract the incorrect average
+    	REPLACE(Salary,'0','') # replace all occurances of '0' in Salary with ''
+        )) FROM EMPLOYEES;
