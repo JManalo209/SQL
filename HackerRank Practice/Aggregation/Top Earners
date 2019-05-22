@@ -1,0 +1,7 @@
+select (salary * months)as earnings , count(*) 
+from employee group by 1 
+order by earnings desc limit 1;
+
+/* Result: 108064 7 
+(salary * months)as earnings = 108064 aka highest salary
+count(*) = 7 people
