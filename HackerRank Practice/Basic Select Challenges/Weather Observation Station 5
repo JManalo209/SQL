@@ -4,4 +4,7 @@ ORDER BY length(CITY), city limit 1;
 
 SELECT CITY, length(CITY) 
 FROM station 
-ORDER BY length(CITY) desc, city limit 1; `
+ORDER BY length(CITY) desc, city limit 1; 
+
+
+/*order by orders it by city name length and alphabetically, limited to 1 result
