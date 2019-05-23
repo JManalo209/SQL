@@ -1,3 +1,5 @@
 SELECT distinct city 
 FROM station 
 WHERE SUBSTRING(city,1,1) in ('a','e','i','o','u')
+
+/*substring(city,1,1) creates substring of the string 'city' from 1 to 1 i.e from 1st letter to 1st letter
