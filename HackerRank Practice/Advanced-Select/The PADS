@@ -10,6 +10,5 @@ ORDER BY count(OCCUPATION), OCCUPATION ASC
 
 /*Line 1 and 5 add the strings together. 
   Line 1 results in: Samantha(A), etc.
-  Line 5 results in: There are a total of 3 doctors, etc.
-  
+  Line 5 results in: There are a total of 3 doctors, etc. Lower() displays "doctors" in lowercase.
   
