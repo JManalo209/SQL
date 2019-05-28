@@ -1,0 +1,5 @@
+select sum(city.population) from city
+inner join country on city.countrycode = country.code
+where country.continent = 'asia'
+
+/*The INNER JOIN selects all rows from both participating tables as long as there is a match between the columns.
